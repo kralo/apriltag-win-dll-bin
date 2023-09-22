@@ -1,0 +1,35 @@
+# Builder notes for a fresh Windows Server 2019
+
+# install chocolatey
+
+Set-ExecutionPolicy Bypass -Scope Process -Force; [System.Net.ServicePointManager]::SecurityProtocol = [System.Net.ServicePointManager]::SecurityProtocol -bor 3072; iex ((New-Object System.Net.WebClient).DownloadString('https://community.chocolatey.org/install.ps1'))
+
+choco install -y git 7zip visualcpp-build-tools
+choco install -y cmake --installargs 'ADD_CMAKE_TO_PATH=USER'
+
+
+mkdir c:\buildspace
+cd c:\buildspace
+
+git clone https://github.com/aprilrobotics/apriltag.git
+
+# add cmake to PATH! if it is not done automatically!
+
+# change to the Visual Studio build console!
+
+cd c:\buildspace\apriltag
+git rev-parse --short master
+
+# UPDATE version String in apriltag.c !!
+
+
+cmake -B build_x64 -A x64    -G "Visual Studio 15 2017" -DCMAKE_BUILD_TYPE=Release -DBUILD_EXAMPLES=off -DCMAKE_WINDOWS_EXPORT_ALL_SYMBOLS=on
+cmake -B build_Win32 -A Win32  -G "Visual Studio 15 2017" -DCMAKE_BUILD_TYPE=Release -DBUILD_EXAMPLES=off -DCMAKE_WINDOWS_EXPORT_ALL_SYMBOLS=on
+cmake --build build_x64 --config Release
+cmake --build build_Win32 --config Release
+
+7z a apriltag-dll-bin.zip build_Win32\Release
+7z a apriltag-dll-bin.zip build_x64\Release
+
+
+

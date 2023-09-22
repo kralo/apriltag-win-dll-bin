@@ -271,6 +271,8 @@ void apriltag_detections_destroy(zarray_t *detections);
 // Caller is responsible for calling image_u8_destroy on the image
 image_u8_t *apriltag_to_image(apriltag_family_t *fam, int idx);
 
+const char* apriltag_dll_version();
+
 #ifdef __cplusplus
 }
 #endif

@@ -1451,3 +1451,9 @@ image_u8_t *apriltag_to_image(apriltag_family_t *fam, int idx)
     }
     return im;
 }
+
+const char* apriltag_dll_version()
+{
+  // format: VERSION (see CMAKELIST) GITHASH DATE URL
+  return "YOUSHOULDEDITTHIS";
+}
